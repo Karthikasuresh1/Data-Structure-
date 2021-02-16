@@ -1,0 +1,244 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+struct Node
+ {
+ int data;
+ struct Node *link;
+ }*first=NULL,*current,*temp,*prev;
+ int ch,i,it,pos,n;
+typedef struct Node Node;
+void InsertFirst();
+void InsertLast();
+void InsertAny();
+void deleteFnode();
+void deleteLnode();
+void deleteAnynode();
+void TraverseList();
+
+void main()
+ {clrscr();
+ printf("\n How many nodes do you want to create?");
+ scanf("%d",&n);
+ while(1)
+ {
+ printf("\n0.Exit");
+ printf("\n1.Insert first");
+ printf("\n2.Insert last");
+ printf("\n3.Insert at any position");
+ printf("\n4.Delete first node");
+ printf("\n5. Delete last node");
+ printf("\n6. Delete any node");
+ printf("\n7. Traverse list");
+ printf("\nEnter your choice:");
+ scanf("%d",&ch);
+ switch(ch)
+ {
+  case 0:
+  {
+  exit(0);
+  break;
+  }
+  case 1:
+  {
+  printf("\n Enter the item:");
+  scanf("%d",&it);
+  InsertFirst(&first,it);
+  break;
+  }
+  case 2:
+  {
+  printf("\n Enter the item");
+  scanf("%d",&it);
+  InsertLast(&first,it);
+  break;
+  }
+  case 3:
+  {
+  printf("Enter the data:\n");
+  scanf("%d",&it);
+  printf("Enter the position:\n");
+  scanf("%d",&pos);
+  InsertAny(&first,pos,it);
+  break;
+  }
+  case 4:
+  {
+  deleteFnode(&first);
+  break;
+  }
+  case 5:
+  {
+   deleteLnode(first);
+  break;
+  }
+  case 6:
+  {
+  printf("Enter the position of the data which you want to delete:\n");
+  scanf("%d",&pos);
+  deleteAnynode(&first,pos);
+  break;
+  }
+  case 7:
+  {
+  TraverseList(first);
+  break;
+  }
+  default:
+  {
+  printf("Invalid choice");
+  break;
+  }
+  }
+ }
+}
+void InsertFirst(Node **first,int v)
+{
+ temp=(Node*)malloc(sizeof(Node));
+ if(temp==NULL)
+ {
+  printf("Cannot add new nodes\n");
+ }
+ temp->data=v;
+  temp->link=*first;
+ *first=temp;
+}
+void InsertLast(Node **first,int v)
+{
+ temp=(Node*)malloc(sizeof(Node));
+ if(temp==NULL)
+ {
+  printf("Cannot add new nodes\n");
+ }
+ temp->data=v;
+ temp->link=NULL;
+ if(*first==NULL)
+ *first=temp;
+ else
+ {
+  current=(*first);
+  while(current->link!=NULL)
+  current=current->link;
+  current->link=temp;
+ }
+}
+void InsertAny(Node **first,int pos,int v)
+{
+ temp=(Node*)malloc(sizeof(Node));
+ if(temp==NULL)
+ {
+  printf("Unable to create a new node\n");
+  return;
+ }
+ if((*first==NULL)||(pos==1))
+ {
+  temp->data=v;
+  temp->link=*first;
+  *first=temp;
+  return;
+  }
+ current=(*first)->link;
+ prev=(*first);
+ i=1;
+ while(current!=NULL)
+ if((i+1)==pos)
+ break;
+ else
+ {
+  prev=current;
+  current=current->link;
+  i++;
+  }
+  temp->data=v;
+  temp->link=current;
+  prev->link=temp;
+ }
+void TraverseList(Node *first)
+{
+ Node *new=first;
+ while(new!=NULL)
+ {
+  printf("%d\n",new->data);
+  new=new->link;
+ }
+}
+void deleteFnode(Node **first)
+{
+ if(temp==NULL)
+  {
+   printf("Empty");
+  }
+ else
+  {
+   current=(*first);
+   i=current->data;
+   (*first)=(*first)->link;
+   free(current);
+   printf("\n Deleted item=%d\n",i);
+
+  }
+}
+void deleteLnode(Node *first)
+{
+ if(first==NULL)
+ {
+  printf("Empty");
+  return;
+ }
+ else
+ {
+  current=temp;
+  prev=NULL;
+  if(first->link==NULL)
+  first=first->link;
+  else
+  {
+   while(current->link!=NULL)
+   {
+    prev=current;
+    current=current->link;
+   }
+   prev->link=current->link;
+  }
+  i=current->data;
+  free(current);
+  printf("\nDeleted item=%d\n",i);
+ }
+}
+void deleteAnynode(Node **first,int pos)
+{
+ i=1;
+ if(first==NULL)
+ {
+  printf("\n List is empty");
+  return;
+ }
+ if(pos==1)
+ {
+  current=(*first);
+  it=current->data;
+  (*first)=(*first)->link;
+  free(current);
+  printf("\n Deleted item=%d",it);
+  return;
+ }
+ current=(*first)->link;
+ prev=(*first);
+ i=2;
+ while(current!=NULL)
+ {
+  if(i==pos)
+  {
+  prev->link=current->link;
+  it=current->data;
+  free(current);
+  printf("\n Deleted item=%d",it);
+  }
+ else
+ {
+  prev=current;
+  current=current->link;
+ }
+ i++;
+ }
+}

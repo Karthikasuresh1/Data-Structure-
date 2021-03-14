@@ -1,0 +1,108 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct Node
+{
+    int data;
+    struct Node *link;
+} *first=NULL,*temp,*new,*ptr;
+int item,n,ch,s,flag=0,se;
+typedef struct Node Node;
+int insertNode();
+int displayNode();
+int searchKey();
+int main()
+{
+    printf("Enter the number of nodes: ");
+    scanf("%d",&n);
+    while(1)
+    {
+    printf("\n1.Insert\n2.Display\n3.Seach\n4.Exit");
+    printf("Enter your choice: ");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+    case 1:
+    {
+        printf("Enter the item which you want to enter: ");
+        scanf("%d",&item);
+        insertNode(&first,item);
+        break;
+    }
+    case 2:
+    {
+        displayNode(first);
+        break;
+    }
+    case 3:
+    {
+        
+        searchKey(first);
+        break;
+    }
+    case 4:
+    {
+        exit(0);
+        break;
+       
+    }
+    default:
+    {
+        printf("Enter a valid choice.");
+        break;
+    }}}
+}
+insertNode(Node **first,int it)
+{
+    temp=(Node*)malloc(sizeof(Node));
+    if(temp==NULL)
+    {
+        printf("Unable to create a node.");
+    }
+    else
+    {
+        temp->data=it;
+        temp->link=*first;
+        *first=temp;
+    }
+}
+displayNode(Node *first)
+{
+   
+    new=(Node*)malloc(sizeof(Node));
+    new=first;
+    while(new!=NULL)
+    {
+        printf("%d -> ",new->data);
+        new=new->link;
+    }
+}
+searchKey(Node *first)
+{int i=0;
+   
+    ptr=first;
+    if(ptr==NULL)
+    {
+        printf("COULDN'T BE FOUND.");
+    }
+   else
+    {
+        printf("Enter the key which you want to search: ");
+        scanf("%d",&se);
+    while(ptr!=NULL)
+    {
+   if(ptr->data==se)
+   {
+       printf("Item found at location: %d",i+1);
+       flag=1;
+   }
+i++;
+ptr=ptr->link;
+
+}
+if(flag==0)
+{
+    printf("Item couldn't be found.");
+}
+}
+    
+}
